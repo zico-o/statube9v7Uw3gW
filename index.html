@@ -1,121 +1,45 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-  <title>STAtube</title>
+<title>STAtube</title>
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+/* ===============================
+   基本設定
+================================ */
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    /* ===== ヘッダー ===== */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      height: 48px;
-      padding: 0 12px;
-      background: #0f0f0f;
-      border-bottom: 1px solid #222;
-    }
-
-    .header img {
-      height: 26px;
-    }
-
-    /* ===== コンテンツ ===== */
-    .container {
-      padding-bottom: 20px;
-    }
-
-    .video {
-margin-bottom: 30px; 
-    }
-
-    /* サムネ */
-.thumb {
+body {
   margin: 0;
-  padding: 0;
-  line-height: 0;
-}
-    .thumb img {
-      width: 100%;
-      display: block;
-    }
-
-    .time {
-      position: absolute;
-      right: 6px;
-      bottom: 6px;
-      background: rgba(0,0,0,.8);
-      padding: 2px 4px;
-      font-size: 11px;
-      border-radius: 3px;
-    }
-
-    /* 情報 */
-.info {
-  display: flex;
-  padding: 0 12px;
-margin-top: -2px;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-    .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #444;
-      margin-right: 10px;
-      flex-shrink: 0;
-    }
-
-/* STA チャンネルアイコン */
-.sta-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff3d3d, #3b6cff);
+/* ===============================
+   ヘッダー（YouTube風）
+================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  color: #fff;
-  flex-shrink: 0;
+  height: 48px;
+  padding: 0 12px;
+  background: #0f0f0f;
+  border-bottom: 1px solid #222;
 }
 
-.meta {
+.header h1 {
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
   margin: 0;
-  padding: 0;
-}
-
-.title {
-  margin: 0;
-}
-.sub {
-  margin: 0;
-  padding: 0;
-  line-height: 1.25;
-}
-
-.title,
-.sub {
-  font-size: 15px;
-}
-
-.sub {
-  font-size: 12px;
+  letter-spacing: -0.3px;
 }
 
 .yt-play {
@@ -137,108 +61,261 @@ margin-top: -2px;
   border-color: transparent transparent transparent #fff;
 }
 
+/* ===============================
+   チャンネルアート
+================================ */
+/* .channel-art img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+} */
 
-a {
-  display: flex;              /* ← block ではなく */
-  flex-direction: column;     /* ← 縦に並べる */
-  color: inherit;
-  text-decoration: none;
-  font-size: 0;
+/* ===============================
+   チャンネル情報
+================================ */
+.channel {
+  padding: 12px;
+  border-bottom: 1px solid #222;
 }
 
-  </style>
+.channel-top {
+  display: flex;
+  align-items: center;
+}
+
+.sta-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff3d3d, #3b6cff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+  margin-right: 12px;
+}
+
+.channel-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.channel-handle,
+.channel-stats {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.channel-desc {
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+/* ===============================
+   タブ
+================================ */
+.tabs input {
+  display: none;
+}
+
+.tab-buttons {
+  display: flex;
+  border-bottom: 1px solid #222;
+}
+
+.tab-buttons label {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+#tab-home:checked ~ .tab-buttons label[for="tab-home"],
+#tab-videos:checked ~ .tab-buttons label[for="tab-videos"],
+#tab-playlists:checked ~ .tab-buttons label[for="tab-playlists"] {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.tab-content {
+  display: none;
+}
+
+#tab-home:checked ~ .tab-contents .home,
+#tab-videos:checked ~ .tab-contents .videos,
+#tab-playlists:checked ~ .tab-contents .playlists {
+  display: block;
+}
+
+/* ===============================
+   動画リスト
+================================ */
+.section {
+  padding: 16px 12px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.video a {
+  display: flex;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 12px;
+}
+
+.thumb {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.thumb img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+}
+
+.sub {
+  font-size: 12px;
+  color: #aaa;
+}
+</style>
 </head>
 
 <body>
 
-
-
+<!-- ヘッダー -->
 <div class="header">
   <div class="yt-play"></div>
   <h1>STAtube</h1>
 </div>
 
-<!-- 動画一覧 -->
-<div class="container">
+<!-- チャンネルアート
+<div class="channel-art">
+  <img src="channel-art.jpg">
+</div> -->
 
-  <div class="video">
-    <a href="https://youtu.be/-16kfGFGANA" target="_blank">
-      <div class="thumb">
-        <img src="https://img.youtube.com/vi/-16kfGFGANA/hqdefault.jpg">
-       </div>
-    <div class="info">
-      <div class="sta-icon">STA</div>
-      <div class="meta">
-        <p class="title">
-          2026年STA新年会～宝くじ発表会
-        </p>
-        <div class="sub">
-          STAtube ・ 1.2万回視聴 ・ 1日前
-        </div>
-      </div>
+<!-- チャンネル情報 -->
+<div class="channel">
+  <div class="channel-top">
+    <div class="sta-icon">STA</div>
+    <div>
+      <div class="channel-name">STA公式チャンネル</div>
+      <div class="channel-handle">@stachannel</div>
+      <div class="channel-stats">登録者数 100億人・動画 4本</div>
     </div>
-    </a>
+  </div>
+  <div class="channel-desc">
+    テニスサークルSTAの公式YouTubeチャンネル
+  </div>
+</div>
+
+<!-- タブ -->
+<div class="tabs">
+  <input type="radio" name="tab" id="tab-home" checked>
+  <input type="radio" name="tab" id="tab-videos">
+  <input type="radio" name="tab" id="tab-playlists">
+
+  <div class="tab-buttons">
+    <label for="tab-home">ホーム</label>
+    <label for="tab-videos">動画</label>
+    <label for="tab-playlists">再生リスト</label>
   </div>
 
-  <div class="video">
-    <a href="https://youtu.be/t3W0H1WvvS4" target="_blank">
-      <div class="thumb">
-        <img src="https://img.youtube.com/vi/t3W0H1WvvS4/hqdefault.jpg">
-       </div>
-    <div class="info">
-      <div class="sta-icon">STA</div>
-      <div class="meta">
-        <p class="title">
-          STA2025年末対抗戦～帰ってきたhope
-        </p>
-        <div class="sub">
-          STAtube ・ 20回視聴 ・ 2週間前
+  <div class="tab-contents">
+
+    <!-- ホーム -->
+    <div class="tab-content home">
+      <div class="section">
+        <div class="section-title">人気の動画</div>
+
+        <div class="video">
+          <a href="https://youtu.be/-16kfGFGANA" target="_blank">
+            <div class="thumb">
+              <img src="https://img.youtube.com/vi/-16kfGFGANA/hqdefault.jpg">
+            </div>
+            <div class="meta">
+              <p class="title">2026年STA新年会～宝くじ発表会</p>
+              <div class="sub">1.2万回視聴・1日前</div>
+            </div>
+          </a>
         </div>
+
+        <div class="video">
+          <a href="https://youtu.be/t3W0H1WvvS4" target="_blank">
+            <div class="thumb">
+              <img src="https://img.youtube.com/vi/t3W0H1WvvS4/hqdefault.jpg">
+            </div>
+            <div class="meta">
+              <p class="title">STA2025年末対抗戦～帰ってきたhope</p>
+              <div class="sub">20回視聴 ・ 2週間前</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="video">
+          <a href="https://youtu.be/QRKYzFVm5hg" target="_blank">
+            <div class="thumb">
+              <img src="https://img.youtube.com/vi/QRKYzFVm5hg/hqdefault.jpg">
+            </div>
+            <div class="meta">
+              <p class="title">STAミルクボーイ</p>
+              <div class="sub">3回視聴 ・ 2か月前</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="video">
+          <a href="https://youtu.be/LcPcr86pwT0" target="_blank">
+            <div class="thumb">
+              <img src="https://img.youtube.com/vi/LcPcr86pwT0/hqdefault.jpg">
+            </div>
+            <div class="meta">
+              <p class="title">STA20周年記念スライド</p>
+              <div class="sub">11万回視聴 ・ 2か月前</div>
+            </div>
+          </a>
+        </div>
+
+
       </div>
     </div>
-    </a>
-  </div>
 
-  <div class="video">
-    <a href="https://youtu.be/QRKYzFVm5hg" target="_blank">
-      <div class="thumb">
-        <img src="https://img.youtube.com/vi/QRKYzFVm5hg/hqdefault.jpg?v=2">
-       </div>
-    <div class="info">
-      <div class="sta-icon">STA</div>
-      <div class="meta">
-        <p class="title">
-          STAミルクボーイ
-        </p>
-        <div class="sub">
-          STAtube ・ 3回視聴 ・ 2か月前
-        </div>
+    <!-- 動画 -->
+    <div class="tab-content videos">
+      <div class="section">
+        <div class="section-title">すべての動画</div>
       </div>
     </div>
-    </a>
-  </div>
 
-  <div class="video">
-    <a href="https://youtu.be/LcPcr86pwT0" target="_blank">
-      <div class="thumb">
-        <img src="https://img.youtube.com/vi/LcPcr86pwT0/hqdefault.jpg">
-      </div>
-    <div class="info">
-      <div class="sta-icon">STA</div>
-      <div class="meta">
-        <p class="title">
-          STA20周年記念スライド
-        </p>
-        <div class="sub">
-          STAtube ・ 11万回視聴 ・ 2か月前
-        </div>
+    <!-- 再生リスト -->
+    <div class="tab-content playlists">
+      <div class="section">
+        <div class="section-title">再生リスト</div>
       </div>
     </div>
-    </a>
-  </div>
 
+  </div>
 </div>
 
 </body>
 </html>
-
