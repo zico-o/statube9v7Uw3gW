@@ -129,16 +129,22 @@ body {
   display: none;
 }
 
-.fold summary::after {
-  content: "▾";
-  float: right;
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;        /* タイトルと▼の距離 */
+}
+
+.arrow {
+  font-size: 16px; /* ▼を大きく */
   color: #aaa;
+  transition: transform 0.2s ease;
 }
 
-.fold[open] summary::after {
-  content: "▴";
+/* 開いている時は▲っぽく */
+details[open] .arrow {
+  transform: rotate(180deg);
 }
-
    
 /* ===============================
    タブ
@@ -270,8 +276,9 @@ body {
     <div class="tab-content home">
       <div class="section">
          <details open class="fold">
-         <summary class="section-title">人気の動画</summary>
-
+         <summary class="section-title">
+           人気の動画 <span class="arrow">▼</span>
+         </summary>
         <div class="video">
           <a href="https://youtu.be/-16kfGFGANA" target="_blank">
             <div class="thumb">
