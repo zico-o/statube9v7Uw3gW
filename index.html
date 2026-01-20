@@ -251,13 +251,24 @@ details[open] .arrow {
   border-radius: 3px;
   line-height: 1;
 }
-   
+
+/*
 .meta {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+*/
+   
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;          /* ← これが超重要 */
+  min-width: 0;     /* ← 省略表示のため必須 */
+}
 
+   
 .title {
   margin: 0;
   font-size: 15px;
